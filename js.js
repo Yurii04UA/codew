@@ -574,3 +574,135 @@
 // }
 
 // console.log(wave("codewars as"));
+
+// Remove anchor from URL
+// function removeUrlAnchor(url) {
+//   let newStr = "";
+//   let aa = url;
+
+//   if (url.includes("#")) {
+//     newStr = aa.split("");
+//     newStr.splice(aa.indexOf("#"));
+//     return newStr.join("");
+//   }else{
+//    return url
+//   }
+
+// }
+
+// console.log(removeUrlAnchor("www.codewars.com/katas"));
+
+// Strip Comments 4 kyu
+// function solution(input, markers) {
+//   let arr = [...input];
+//   const [m1, m2] = markers;
+//   arr.map((letter) => {
+//     if (letter == m1) {
+//       let indMark = arr.indexOf(m1);
+//       let indEnd = arr.indexOf("\n", indMark);
+//       console.log(indMark);
+//       console.log(indEnd);
+//       if (indEnd > 0) {
+//         arr.splice(indMark - 1, indEnd - indMark + 1);
+//       } else {
+//         arr.splice(indMark - 1);
+//       }
+//     }
+//     if (letter == m2) {
+//       let indMark = arr.indexOf(m2);
+//       let indEnd = arr.indexOf("\n", indMark);
+//       if (indEnd > 0) {
+//         arr.splice(indMark - 1, indEnd - indMark + 1);
+//       } else {
+//         arr.splice(indMark - 1);
+//       }
+//     }
+//   });
+
+//   return arr;
+// }
+
+// console.log(
+//   solution("apples, plums % and bananas\npears\noranges !applesauce", [
+//     "%",
+//     "!",
+//   ])
+// );
+
+// function solution2(input, markers) {
+//   let lines = input.split("\n");
+
+//   console.log(lines);
+//   lines = lines.map((line) => {
+//     let result = line;
+//     markers.forEach((m) => {
+//       if (line.includes(m)) {
+//         console.log(line.split("").splice(0, line.indexOf(m)).join(""));
+//         result = line.split("").splice(0, line.indexOf(m)).join("").trim();
+//       }
+//     });
+//     return result;
+//   });
+
+//   return lines.join("\n");
+// }
+
+// console.log(
+//   solution2("apples, plums % and bananas\npears\noranges !applesauce", [
+//     "%",
+//     "!",
+//   ])
+// );
+
+function nextBigger(n) {
+  let arr = [...n.toString()].map(Number);
+  function perm(arr) {
+    if (arr.length > 1) {
+      let beg = arr[0];
+      let arr1 = perm(arr.slice(1));
+      let arr2 = [];
+      for (let i = 0; i < arr1.length; i++)
+        for (let j = 0; j <= arr1[0].length; j++) {
+          arr2.push(arr1[i].slice(0, j).concat(beg, arr1[i].slice(j)));
+        }
+      return arr2;
+    } else return [arr];
+  }
+
+  let nextNumb = perm(arr)
+    .map((el) => +el.join(""))
+    .sort((a, b) => a - b);
+  let uniq = nextNumb.reduce((acc, item) => {
+    if (acc.includes(item)) {
+      return acc;
+    }
+    return [...acc, item];
+  }, []);
+
+  console.log(uniq);
+  if (uniq[uniq.indexOf(n) + 1]) {
+    return uniq[uniq.indexOf(n) + 1];
+  } else {
+    return -1;
+  }
+}
+
+console.log(nextBigger(1005));
+
+function nextBigger2(n) {
+  function sortNumb(n) {
+    const arr = [...n.toString()].map(Number);
+    arr.sort((a, b) => b - a);
+    return arr;
+  }
+  const maxNumb = +sortNumb(n).join("");
+  for (let i = n + 1; i <= maxNumb; i++) {
+    if (maxNumb === +sortNumb(i).join("")) {
+      return i;
+    }
+  }
+  return -1;
+}
+
+console.log(nextBigger2(1005));
+// console.log(nextBigger2(499864322110000));
